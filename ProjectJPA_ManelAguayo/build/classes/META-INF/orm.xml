@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+	<description>Mapping for JPAHibernate Videoclub Project in XML.</description>
+
+	<entity name="Actor" class="Entities.Actor" access="FIELD">
+		<table name="actor" />
+		<attributes>
+			<id name="codi_actor">
+				<column name="id_actor"></column>
+			</id>
+			<basic name="nom">
+				<column name="nombre" length="30" />
+			</basic>
+			<basic name="nacionality">
+				<column name="nacionalidad" length="30" />
+			</basic>
+		</attributes>
+	</entity>
+
+	<entity name="Client" class="Entities.Client" access="FIELD">
+		<table name="cliente" />
+		<attributes>
+			<id name="code">
+				<column name="id_cliente"></column>
+			</id>
+			<basic name="name">
+				<column name="nombre" />
+			</basic>
+		</attributes>
+	</entity>
+
+	<entity name="Genere" class="Entities.Genere" access="FIELD">
+		<table name="genero"/>
+		<attributes>
+			<id name="id_genere">
+				<column name="id_genero"></column>
+			</id>
+			<basic name="descripcio">
+				<column name="descripcion" length="30" />
+			</basic>
+		</attributes>
+	</entity>
+
+	<entity name="Pelicula" class="Entities.Pelicula" access="FIELD">
+		<table name="pelicula" />
+		<attributes>
+			<id name="id_pelicula">
+				<column name="id_pelicula"></column>
+			</id>
+			<basic name="titol_pelicula">
+				<column name="titulo" length="30" />
+			</basic>
+			
+			<many-to-one name="genere" fetch="LAZY">
+				<join-column name="genero" />
+				<cascade>
+					<cascade-merge/>
+				</cascade>
+			</many-to-one>
+			<one-to-many name="llistat_actuacions" target-entity="Entities.Actuacio">
+			<join-column name="pelicula"/>
+			<cascade>
+			<cascade-merge/>
+			</cascade>
+			</one-to-many>
+			</attributes>
+	</entity>
+
+	<entity class="Entities.Visualitzacio" access="FIELD">
+	<table name="visualizacion"/>
+	<id-class class="Managers_Main.VisualitzacioPK"/>
+		<attributes>
+			<id name="data_entrada">
+				<column name="fecha" />
+			</id>
+			<many-to-one name="client_view" fetch="LAZY" id="true">
+				<join-column name="cliente" />
+				<cascade>
+				<cascade-merge/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="peli_view" fetch="LAZY" id="true">
+				<join-column name="pelicula" />
+				<cascade>
+				<cascade-merge/>
+				</cascade>
+			</many-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="Entities.Actuacio" access="FIELD">
+	<table name="actuacion" />
+		<id-class class="Managers_Main.ActuacioPK"/>
+		<attributes>
+			<id name="personatge">
+				<column name="personaje" length="30" />
+			</id>
+			<many-to-one name="codi_actor" fetch="LAZY" id="true">
+				<join-column name="actor" />
+				<cascade>
+				<cascade-merge/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="codi_pelicula" fetch="LAZY" id="true">
+				<join-column name="pelicula" />
+				<cascade>
+				<cascade-merge/>
+				</cascade>
+			</many-to-one>
+		</attributes>
+	</entity>
+
+</entity-mappings>
